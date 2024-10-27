@@ -1,3 +1,5 @@
+import { Request } from "express"
+
 export interface User{
     id?:number
     email:string
@@ -13,5 +15,10 @@ export interface Todo{
     title:string,
     description:string
     done:boolean
+}
+
+export interface AuthenticatedRequest extends Request {
+  userId?: number;
+  username?: string;
 }
 
