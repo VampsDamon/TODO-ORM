@@ -1,43 +1,44 @@
 import { PrismaClient } from "@prisma/client";
-import { User, UserWithoutPassword } from "../types";
+import {Todo} from "../types";
 const prisma=new PrismaClient();
 
-export const createUser=async({username,password,email}:User):Promise<UserWithoutPassword>=>{
-   return  await prisma.users.create({
-     data: {
-       username,
-       email,
-       password,
-     },
-     select: {
-       id:true,
-       username:true,
-       email:true
-     },
-   });  
+export const createTodo=async({title,description}:Todo,userId:number):Promise<Todo>=>{
+  return await prisma.todos.create({
+    data:{
+        userId,
+        title,
+        description
+    }
+  })
 }
 
-export const getAllUsers=async():Promise<UserWithoutPassword[]>=>{
-    return await prisma.users.findMany({
-        select:{
-            id:true,
-            username:true,
-            email:true,            
-        }
-    })
-}
 
-export const getUserById=async(userId:number):Promise<UserWithoutPassword | null>=>{
-    return await prisma.users.findUnique({
+export const updateTodo=async(todoId:number):Promise<Todo>=>{
+    return await prisma.todos.update({
         where:{
-            id:userId
+            id:todoId,
         },
-        select:{
-            id:true,
-            username:true,
-            email:true
+        data:{
+            done:true
         }
     })
 }
+
+export const getTodoByUserId=async(userId:number):Promise<Todo[]>=>{
+    return await prisma.todos.findMany({
+        where:{
+            userId
+        }
+    }) 
+}
+
+
+export const deleteTodo = async (todoId: number): Promise<Todo> => {
+  return await prisma.todos.delete({
+    where: {
+      id: todoId,
+    }
+  });
+};
 
 
