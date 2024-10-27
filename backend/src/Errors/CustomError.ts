@@ -1,3 +1,5 @@
+import { ZodError as ZodValidationError } from "zod"
+
 class AppError extends Error {
   public  statuscode:number
 
@@ -38,6 +40,17 @@ export class DuplicateError extends AppError{
     constructor(message="Duplicate Error"){
         super(message,409)
     }
+}
+
+export class ZodError extends AppError{
+   public details:string[];
+
+   constructor(error:ZodValidationError){
+    super("Validation Error",400)
+    this.details=error.errors.map(err=>`
+         ${err.path.join(".")}: ${err.message}
+        `);
+   }
 }
 
 export default AppError;
