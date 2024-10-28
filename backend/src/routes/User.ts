@@ -1,5 +1,6 @@
 import {Request, Response, Router} from 'express'
-import { registerUser } from '../controllers/UserController';
+import { getUser, login, registerUser } from '../controllers/UserController';
+import { jwtAuthMiddleware } from '../middlewares/auth';
 
 export const userRouter=Router();
 
@@ -10,3 +11,6 @@ userRouter.get("/",(req:Request,res:Response)=>{
 
 userRouter.post("/register",registerUser);
 
+userRouter.post('/login',login);
+
+userRouter.get("/userInfo",jwtAuthMiddleware ,getUser);

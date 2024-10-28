@@ -19,6 +19,5 @@ export interface Todo{
 
 export interface AuthenticatedRequest extends Request {
   userId?: number;
-  username?: string;
 }
 
