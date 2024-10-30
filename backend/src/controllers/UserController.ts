@@ -1,7 +1,7 @@
 import { verify } from "crypto";
 import { createUser, getUserByEmail, getUserById } from "../db/User";
 import { userSchema } from "../schemas";
-import { AuthenticatedRequest } from "../types";
+import { AuthenticatedRequest, User } from "../types";
 import { hashPassword, verifyPassword } from "../utility/hash";
 import { generateToken } from "../utility/jwt";
 import { NextFunction, Response } from "express";
@@ -20,16 +20,15 @@ export const registerUser = async (
     if (!username ) {
       throw new BadRequestError("Username must be provided")
     }
-    console.log(username, email, password);
-    const hashedPassword = await hashPassword(password);
 
     const existingUser = await getUserByEmail(email);
-
     
-
     if (existingUser) {
       throw new BadRequestError("Email ID already in use");
     }
+    
+    
+    const hashedPassword = await hashPassword(password);
 
     const user = await createUser({
       username,
@@ -38,7 +37,7 @@ export const registerUser = async (
     });
 
     if (user) {
-      const token = generateToken(user?.id || 1 );
+      const token = generateToken(user?.id  );
       res.json({
         message: "User registered successfully",
         token,
@@ -58,6 +57,7 @@ export const login = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const { password, email } = userSchema.parse(req.body);
     
+
     const user=await getUserByEmail(email);
   
     if(user){

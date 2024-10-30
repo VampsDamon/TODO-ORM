@@ -13,4 +13,4 @@ userRouter.post("/register",registerUser);
 
 userRouter.post('/login',login);
 
-userRouter.get("/userInfo",jwtAuthMiddleware ,getUser);
+userRouter.get("/info",jwtAuthMiddleware ,getUser);
