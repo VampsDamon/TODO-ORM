@@ -8,9 +8,11 @@ export const userSchema=z.object({
 })
 
 export const todoSchema=z.object({
-    
+    id:z.number().optional(),
     title:z.string().nonempty("Title is required"),
-    description:z.string().nonempty("Description is required")
+    description:z.string().nonempty("Description is required"),
+    userId:z.number().optional(),
+    done:z.boolean().optional()
 })
 
 

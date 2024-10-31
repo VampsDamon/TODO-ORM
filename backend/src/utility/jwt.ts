@@ -4,7 +4,7 @@ const SECRET_KEY =<string> process.env.JWT_SECRET;
 
 
 export const generateToken=(userId:number):string=>{
-    return jwt.sign({userId},SECRET_KEY,{expiresIn:"1h"})
+    return jwt.sign({userId},SECRET_KEY,{expiresIn:"7d"})
 };
 
 
