@@ -37,7 +37,7 @@ export const registerUser = async (
     });
 
     if (user) {
-      const token = generateToken(user?.id  );
+      const token = generateToken(user?.id, user?.username);
       res.json({
         message: "User registered successfully",
         token,
@@ -64,7 +64,7 @@ export const login = async (req: Request, res: Response,next:NextFunction) => {
       const verifiedPassword=await verifyPassword(password,user?.password)
       
       if(verifiedPassword){
-        const token=generateToken(user?.id||1)
+        const token = generateToken(user?.id||1, user?.username||"");
         res.json({"message":"Login successful",token})
       }else{
         throw new UnauthorizedError("Invalid Password")
